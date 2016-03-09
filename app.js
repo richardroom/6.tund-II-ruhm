@@ -105,6 +105,48 @@
 
      },
 
+     deleteJar: function(event){
+
+       //millele
+       console.log(event.target);
+
+       //mille sees
+       console.log(event.target.parentNode);
+
+       //mille sees
+       console.log(event.target.parentNode.parentNode);
+
+       //id
+       console.log(event.target.dataset.id);
+
+       var c = confirm("Oled kindel?");
+
+       if(!c){ return; }
+
+
+       console.log('kustutan');
+
+
+       //Kustutan htmli
+       var li = event.target.parentNode;
+       var ul = event.target.parentNode.parentNode;
+
+       ul.removeChild(li);
+
+       var delete_id = event.target.dataset.id;
+       //kututan objekti localStorageist
+       for(var i = 0; i < this.jars.length; i++){
+         if(this.jars[i].id == delete_id){
+           this.jars.splice(i, 1);
+           break;
+         }
+       }
+
+       localStorage.setItem('jars', JSON.stringify(this.jars));
+
+     },
+
+
      search: function(event){
          //otsikasti väärtus
          var needle = document.querySelector('#search').value.toLowerCase();
@@ -241,6 +283,9 @@
        span_delete.innerHTML = " Delete";
 
        li.appendChild(span_delete);
+
+       ///keegi vajutas nuppu
+       span_delete.addEventListener("click", Moosipurk.instance.deleteJar.bind(Moosipurk.instance));
 
        return li;
 
