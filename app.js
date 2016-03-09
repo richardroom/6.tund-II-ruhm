@@ -143,7 +143,7 @@
 
        //console.log(title + ' ' + ingredients);
        //1) tekitan uue Jar'i
-       var new_jar = new Jar(title, ingredients);
+       var new_jar = new Jar(guid(), title, ingredients);
 
        //lisan massiiivi purgi
        this.jars.push(new_jar);
@@ -193,7 +193,8 @@
 
    }; // MOOSIPURGI LÕPP
 
-   var Jar = function(new_title, new_ingredients){
+   var Jar = function(new_id, new_title, new_ingredients){
+     this.id = new_id;
      this.title = new_title;
      this.ingredients = new_ingredients;
      console.log('created new jar');
@@ -229,10 +230,38 @@
 
        li.appendChild(span_with_content);
 
+       //delete nupp
+       var span_delete = document.createElement('span');
+       span_delete.style.color = "red";
+       span_delete.style.cursor = "pointer";
+
+       //Kututamiseks id kaasa
+       span_delete.setAttribute("data-id", this.id);
+
+       span_delete.innerHTML = " Delete";
+
+       li.appendChild(span_delete);
+
        return li;
 
      }
    };
+
+   ///HELPER
+   function guid(){
+    var d = new Date().getTime();
+    if(window.performance && typeof window.performance.now === "function"){
+        d += performance.now(); //use high-precision timer if available
+    }
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
+
+
 
    // kui leht laetud käivitan Moosipurgi rakenduse
    window.onload = function(){
